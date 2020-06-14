@@ -16,12 +16,12 @@ class DragButton(DragBehavior, Button):
 		self.size_hint = (None, None)
 		self.text = kwargs['text']
 		self.in_obj = None
+		self.out = None
 		
 		self.in_but = Button(size_hint = (None, None), size = (20, 20), pos_hint = (None, None),
 			pos = (self.center_x - 60, self.center_y - 10))
 		self.in_but.bind(on_press = self._in_but_press)
 		self.add_widget(self.in_but)
-
 
 	def _update_rect(self, *args):
 		self.drag_rectangle = (0, 0, Window.width, Window.height)
@@ -38,4 +38,4 @@ class DragButton(DragBehavior, Button):
 		self.parent.canvas.after.add(self.parent.connections[len(self.parent.connections) - 1])
 
 	def _eval(self):
-		return self.in_obj._eval()
+		self.text = ('Output: ' + str(self.in_obj._eval()))

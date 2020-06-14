@@ -15,6 +15,7 @@ class DragButton(DragBehavior, Button):
 		self.size = (100, 100)
 		self.size_hint = (None, None)
 		self.text = kwargs['text']
+		self.op = kwargs['op']
 		self.in_a_obj = None
 		self.in_b_obj = None
 
@@ -32,6 +33,10 @@ class DragButton(DragBehavior, Button):
 			pos = (self.center_x - 70, self.center_y - 30))
 		self.in_b_but.bind(on_press = self._in_b_press)
 		self.add_widget(self.in_b_but)
+
+		self.bind(pos = self._update_out)
+		self.bind(pos = self._update_in_a)
+		self.bind(pos = self._update_in_b)	
 
 	def _update_rect(self, *args):
 		self.drag_rectangle = (0, 0, Window.width, Window.height)
@@ -61,10 +66,19 @@ class DragButton(DragBehavior, Button):
 			self.parent.to_but.center_y)))
 		self.parent.canvas.after.add(self.parent.connections[len(self.parent.connections) - 1])
 
-
 	def _out_but_press(self, instance):
 		self.parent.from_but = instance
 
-
 	def _eval(self):
-		return (self.in_a_obj._eval() or self.in_b_obj._eval())
+
+		if self.op == 0:
+
+			return (self.in_a_obj._eval() and self.in_b_obj._eval())
+
+		elif self.op == 1:
+
+			return (self.in_a_obj._eval() or self.in_b_obj._eval())
+
+		else:
+
+			return (self.in_a_obj._eval() ^ self.in_b_obj._eval())
