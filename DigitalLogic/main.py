@@ -2,8 +2,6 @@ from kivy.app import App
 from kivy.base import runTouchApp
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle, Line
-from kivy.input.motionevent import MotionEvent
-from kivy.metrics import Metrics
 from kivy.uix.behaviors import DragBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -108,6 +106,7 @@ class MainApp(App):
 		self.or_gate.bind(on_press = self._add_or_gate)
 		self.xor_gate.bind(on_press = self._add_xor_gate)
 
+
 	def _add_and_gate(self, instance):
 
 		self.btn = logic_gate_object.DragButton(text = 'And Gate', op = 0)	
@@ -153,7 +152,12 @@ class MainApp(App):
 
 		for i in outputs:
 
-			self.root.outputs[i]._eval()
+			try:
+
+				self.root.outputs[i]._eval()
+			except:
+
+				print('Digital Circuit Not Complete')
 
 	def _reset_but(self, instance):
 
